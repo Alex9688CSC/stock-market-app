@@ -15,7 +15,6 @@ function call_api(finishedAPI){
     if(err){return console.log(err);}
     if(res.statusCode===200){
         console.log(body);
-        //return body
         finishedAPI (body);
         };
     });
