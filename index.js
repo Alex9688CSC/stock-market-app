@@ -10,15 +10,15 @@ const request= require("request")
 
 
 //create call_api function 
-function call_api(){
+function call_api(finishedAPI){
     request('https://cloud.iexapis.com/stable/stock/fb/quote?token=pk_c5b127615d0b4eb9925735138dc49fae',{json:true},(err, res, body)=>{
     if(err){return console.log(err);}
     if(res.statusCode===200){
         console.log(body);
-        return body
-        //finishedAPI (body);
-    };
-});
+        //return body
+        finishedAPI (body);
+        };
+    });
 };
 
 //set handlebars middleware 
@@ -26,11 +26,13 @@ app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
 app.get('/', function (req, res) {
-    const api = call_api();
-    console.log(api)
-    res.render('home', {
-    stock: api
+    call_api(function(doneAPI){
+        res.render('home', {
+            stock: doneAPI
+        });
     });
+
+    
 });
 
 app.get('/about.html', function (req, res) {
