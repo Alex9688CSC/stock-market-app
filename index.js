@@ -8,13 +8,15 @@ const request= require("request")
 
 // API key pk_c5b127615d0b4eb9925735138dc49fae
 
+
 //create call_api function 
-function call_api(finishedAPI, ticker){
-    request('https://cloud.iexapis.com/stable/stock/' +ticker + '/quote?token=pk_c5b127615d0b4eb9925735138dc49fae',{json:true},(err, res, body)=>{
+function call_api(){
+    request('https://cloud.iexapis.com/stable/stock/fb/quote?token=pk_c5b127615d0b4eb9925735138dc49fae',{json:true},(err, res, body)=>{
     if(err){return console.log(err);}
     if(res.statusCode===200){
-        //console.log(body);
-        finishedAPI (body);
+        console.log(body);
+        return body
+        //finishedAPI (body);
     };
 });
 };
@@ -24,10 +26,10 @@ app.engine('handlebars', exphbs());
 app.set('view engine', 'handlebars');
 
 app.get('/', function (req, res) {
-    call_api(function(doneAPI) {
-            res.render('home', {
-            stock: doneAPI
-        });
+    const api = call_api();
+    console.log(api)
+    res.render('home', {
+    stock: api
     });
 });
 
