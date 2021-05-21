@@ -14,8 +14,8 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 
 //create call_api function 
-function call_api(finishedAPI){
-    request('https://cloud.iexapis.com/stable/stock/fb/quote?token=pk_c5b127615d0b4eb9925735138dc49fae',{json:true},(err, res, body)=>{
+function call_api(finishedAPI,ticker){
+    request('https://cloud.iexapis.com/stable/stock/'+ticker+'/quote?token=pk_c5b127615d0b4eb9925735138dc49fae',{json:true},(err, res, body)=>{
     if(err){return console.log(err);}
     if(res.statusCode===200){
         console.log(body);
@@ -44,7 +44,7 @@ app.post('/', function (req, res) {
         res.render('home', {
             stock: doneAPI, 
         });
-    });
+    }, req.body.stock_ticker);
 });
 
 
